@@ -2,6 +2,11 @@ package ru.job4j.quartz;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 import static org.quartz.JobBuilder.*;
 import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
@@ -12,8 +17,10 @@ public class AlertRabbit {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDetail job = newJob(Rabbit.class).build();
+            Properties properties = new Properties();
+            readRabbit(properties);
             SimpleScheduleBuilder times = simpleSchedule()
-                    .withIntervalInSeconds(10)
+                    .withIntervalInSeconds(Integer.parseInt(properties.getProperty("rabbit.interval")))
                     .repeatForever();
             Trigger trigger = newTrigger()
                     .startNow()
@@ -27,14 +34,16 @@ public class AlertRabbit {
 
     public static class Rabbit implements Job {
         @Override
-        public void execute(JobExecutionContext context) throws JobExecutionException {
+        public void execute(JobExecutionContext context) {
             System.out.println("Rabbit runs here ...");
         }
     }
 
-    /**private static void readRabbit() {
-        try () {
-
+    private static void readRabbit(Properties properties) {
+        try (FileReader fileReader = new FileReader("src/main/resources/rabbit.properties")) {
+            properties.load(fileReader);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }*/
+    }
 }
