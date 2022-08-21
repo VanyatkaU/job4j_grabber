@@ -16,7 +16,7 @@ import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) {
         try {
             Properties properties = new Properties();
             readRabbit(properties);
@@ -42,7 +42,7 @@ public class AlertRabbit {
             scheduler.scheduleJob(job, trigger);
             Thread.sleep(10000);
             scheduler.shutdown();
-        } catch (SchedulerException | InterruptedException se) {
+        } catch (SchedulerException | InterruptedException | SQLException | ClassNotFoundException se) {
             se.printStackTrace();
         }
     }
