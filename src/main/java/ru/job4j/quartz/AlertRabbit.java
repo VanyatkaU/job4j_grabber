@@ -44,6 +44,8 @@ public class AlertRabbit {
         try (InputStream fileReader = Rabbit.class.getClassLoader()
                 .getResourceAsStream("rabbit.properties")) {
             properties.load(fileReader);
+            throw new IllegalArgumentException(
+                    "Если не получилось подключиться - прерываем работу программы.");
         } catch (IOException e) {
             e.printStackTrace();
         }
