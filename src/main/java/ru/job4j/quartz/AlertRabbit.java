@@ -3,8 +3,8 @@ package ru.job4j.quartz;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import static org.quartz.JobBuilder.*;
@@ -41,7 +41,8 @@ public class AlertRabbit {
     }
 
     private static void readRabbit(Properties properties) {
-        try (FileReader fileReader = new FileReader("src/main/resources/rabbit.properties")) {
+        try (InputStream fileReader = Rabbit.class.getClassLoader()
+                .getResourceAsStream("rabbit.properties")) {
             properties.load(fileReader);
         } catch (IOException e) {
             e.printStackTrace();
