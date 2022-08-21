@@ -42,7 +42,10 @@ public class AlertRabbit {
             scheduler.scheduleJob(job, trigger);
             Thread.sleep(10000);
             scheduler.shutdown();
-        } catch (SchedulerException | InterruptedException | SQLException | ClassNotFoundException se) {
+        } catch (SchedulerException
+                | InterruptedException
+                | SQLException
+                | ClassNotFoundException se) {
             se.printStackTrace();
         }
     }
