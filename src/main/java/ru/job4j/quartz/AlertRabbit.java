@@ -17,13 +17,14 @@ import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
     public static void main(String[] args) {
-        try {
-            Properties properties = new Properties();
-            readRabbit(properties);
+        Properties properties = new Properties();
+        readRabbit(properties);
+        try (Connection cn = DriverManager.getConnection(
+                properties.getProperty("url"),
+                properties.getProperty("username"),
+                properties.getProperty("password")
+        )) {
             Class.forName(properties.getProperty("driver-class-name"));
-            Connection cn = DriverManager.getConnection(properties.getProperty("url"),
-                    properties.getProperty("username"),
-                    properties.getProperty("password"));
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDataMap data = new JobDataMap();
