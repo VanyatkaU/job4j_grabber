@@ -15,7 +15,6 @@ public class HabrCareerParse {
     private static final String PAGE_LINK = String.format(
             "%s/vacancies/java_developer", SOURCE_LINK);
 
-
     public static void main(String[] args) throws IOException {
         DateTimeParser dateTimeParser = new HabrCareerDateTimeParser();
         for (int i = 1; i <= PAGE; i++) {
