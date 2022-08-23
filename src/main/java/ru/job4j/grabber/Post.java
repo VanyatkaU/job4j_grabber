@@ -11,9 +11,9 @@ public class Post {
 
     private String link;
 
-    String description;
+    private String description;
 
-    LocalDateTime created;
+    private LocalDateTime created;
 
     public Post(int id, String title, String link,
                 String description, LocalDateTime created) {
@@ -66,8 +66,12 @@ public class Post {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Post post = (Post) o;
         return id == post.id && Objects.equals(link, post.link);
     }
