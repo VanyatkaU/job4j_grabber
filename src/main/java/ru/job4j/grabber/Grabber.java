@@ -26,10 +26,13 @@ public class Grabber implements Grab {
         return scheduler;
     }
 
-    public void cfg() throws IOException {
+    public void cfg() {
         try (InputStream in = Grabber.class.getClassLoader()
                 .getResourceAsStream("app.properties")) {
             cfg.load(in);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(
+                    "Если не получилось подключиться - прерываем работу программы.");
         }
     }
 
@@ -38,6 +41,7 @@ public class Grabber implements Grab {
         JobDataMap data = new JobDataMap();
         data.put("store", store);
         data.put("parse", parse);
+        data.put("link", cfg.getProperty("link"));
         JobDetail job = newJob(GrabJob.class)
                 .usingJobData(data)
                 .build();
